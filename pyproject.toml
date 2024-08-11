@@ -45,3 +45,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 120
 lint.select = ["I00", "E", "F", "W"]
+
+[tool.poetry.plugins.dotenv]
+ignore = "false"
+location = ".env"
