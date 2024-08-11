@@ -11,6 +11,7 @@ django = "^5.1"
 django-types = "^0.19.1"
 django-stubs-ext = "^5.0.4"
 daphne = "^4.1.2"
+djangorestframework = "^3.15.2"
 
 [tool.poetry.group.tests]
 optional = true
@@ -33,6 +34,7 @@ lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
 start = 'python manage.py runserver'
 migrate = 'python manage.py migrate'
+createsuperuser = 'python manage.py createsuperuser'
 pre_test = 'task lint'
 test = 'pytest -s -x -vv'
 # --cov=currency_converter
