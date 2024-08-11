@@ -103,11 +103,15 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v4
 
+            - name: Convert repository name to lowercase
+              id: lowercase
+              run: INPUT=${{ github.repository }}; echo "REPO=${INPUT,,}">>${GITHUB_OUTPUT}
+
             - name: Building image
               shell: bash
               run: |
                   docker build -t ${{ env.docker_image_name }} \
-                    -t ${{ env.docker_registry }}/${{ github.repository }}/${{ env.docker_image_name }}:latest .
+                    -t ${{ env.docker_registry }}/${{ steps.lowercase.outputs.REPO }}/${{ env.docker_image_name }}:latest .
 
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@master
