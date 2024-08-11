@@ -19,6 +19,7 @@ env:
     poetry_version: 1.8.3
     poetry_home: "/opt/poetry"
     SECRET_KEY: "ci_secret_key"
+    DEBUG: "True"
 
 jobs:
     testing:
