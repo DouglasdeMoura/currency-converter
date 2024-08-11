@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "currency_converterpoetry "
+version = "0.1.0"
+description = ""
+authors = ["Douglas Moura <douglas.ademoura@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1"
+django-types = "^0.19.1"
+django-stubs-ext = "^5.0.4"
+daphne = "^4.1.2"
+
+[tool.poetry.group.tests]
+optional = true
+[tool.poetry.group.tests.dependencies]
+pytest-cov = "^5.0.0"
+pytest = "^8.3.2"
+pytest-django = "^4.8.0"
+
+
+[tool.poetry.group.ci.dependencies]
+ruff = "^0.5.7"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.13.0"
+
+
+[tool.taskipy.tasks]
+lint = 'ruff check . && ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
+start = 'python manage.py runserver'
+migrate = 'python manage.py migrate'
+pre_test = 'task lint'
+test = 'pytest -s -x -vv'
+# --cov=currency_converter
+post_test = 'coverage html'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+lint.select = ["I00", "E", "F", "W"]
