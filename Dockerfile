@@ -9,13 +9,13 @@ RUN mkdir -p /code
 
 WORKDIR /code
 
-RUN pip install --no-cache-dir poetry==1.8.3 && \
-    poetry config virtualenvs.create false && \
-    poetry install --only main --no-root --no-interaction
-
 COPY pyproject.toml poetry.lock /code/
 COPY manage.py /code
 COPY manage.py /code
+
+RUN pip install --no-cache-dir poetry==1.8.3 && \
+    poetry config virtualenvs.create false && \
+    poetry install --only main --no-root --no-interaction
 
 ARG SECRET_KEY
 
