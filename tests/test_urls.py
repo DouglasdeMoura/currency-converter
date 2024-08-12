@@ -1,6 +1,7 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
-from tutorial.quickstart.views import GroupViewSet, UserViewSet
+
+from currency_converter.views import GroupViewSet, UserViewSet
 
 
 class TestUrls(SimpleTestCase):
