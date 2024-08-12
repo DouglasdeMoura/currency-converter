@@ -1,7 +1,10 @@
 import pytest
 from requests import HTTPError
 
-from currency_converter.services.exchanges_rates_data_api import get_latest  # Replace with the actual module name
+from currency_converter.services.exchanges_rates_data_api import (
+    get_latest,
+    parse_latest_response,
+)
 
 
 def test_get_latest_success(requests_mock):
@@ -21,6 +24,31 @@ def test_get_latest_success(requests_mock):
     # Assertions
     assert response.status_code == 200
     assert response.json() == mock_response
+
+
+def test_get_latest_parsed_respone(requests_mock):
+    # Mock the API endpoint with a successful response
+    url = "https://api.apilayer.com/exchangerates_data/latest"
+    mock_response = {
+        "base": "EUR",
+        "date": "2024-08-12",
+        "rates": {"BRL": 6.015443, "EUR": 1, "JPY": 161.21704, "USD": 1.092168},
+        "success": True,
+        "timestamp": 1723462876,
+    }
+    requests_mock.get(url, json=mock_response, status_code=200)
+
+    response = get_latest()
+    parsed_response = parse_latest_response(response)
+
+    # Assertions
+    assert parsed_response.base == "EUR"
+    assert parsed_response.date == "2024-08-12"
+    assert parsed_response.rates.BRL == 6.015443
+    assert parsed_response.rates.EUR == 1
+    assert parsed_response.rates.JPY == 161.21704
+    assert parsed_response.rates.USD == 1.092168
+    assert parsed_response.success is True
 
 
 def test_get_latest_failure(requests_mock):
