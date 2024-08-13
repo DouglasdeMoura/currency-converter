@@ -15,6 +15,7 @@ COPY pyproject.toml poetry.lock /code/
 RUN poetry config virtualenvs.create false
 RUN poetry install --only main --no-root --no-interaction
 COPY . /code
+RUN chmod +x entrypoint.sh
 
 # TODO: secrets should be passed on secret mounts. See https://docs.docker.com/build/building/secrets/
 ARG SECRET_KEY
