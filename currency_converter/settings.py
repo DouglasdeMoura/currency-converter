@@ -138,6 +138,6 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "Currency Converter API",
     "DESCRIPTION": "Currency Converter API for the Jaya Challenge",
-    "VERSION": "1.0.0",
+    "VERSION": "1.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
 }
