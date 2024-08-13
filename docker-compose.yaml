@@ -23,6 +23,7 @@ services:
             - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
             - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
             - LOG_LEVEL=${LOG_LEVEL}
+            - APP_URL=${APP_URL}
         entrypoint: ["/code/entrypoint.sh"]
 
 volumes:
