@@ -135,7 +135,11 @@ jobs:
                   sarif_file: "trivy-results.sarif"
 
     deploy:
-        name: Deploy app
+        name: deployment
+        needs:
+            - testing
+            - linting
+            - containerization
         runs-on: ubuntu-latest
         concurrency: deploy-group # optional: ensure only one action runs at a time
         steps:
