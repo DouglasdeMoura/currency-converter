@@ -12,7 +12,7 @@ services:
             - .:/code
             - data:/data
         ports:
-            - "8000:8000"
+            - "3000:8000"
         environment:
             - PYTHONDONTWRITEBYTECODE=1
             - PYTHONUNBUFFERED=1
