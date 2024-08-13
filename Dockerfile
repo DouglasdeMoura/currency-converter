@@ -13,10 +13,13 @@ COPY pyproject.toml /code
 COPY poetry.lock /code
 COPY manage.py /code
 COPY currency_converter /code/currency_converter
+COPY entrypoint.sh /code/
 
 RUN pip install --no-cache-dir poetry==1.8.3 && \
     poetry config virtualenvs.create false && \
     poetry install --only main --no-root --no-interaction
+
+RUN chmod +x /code/entrypoint.sh
 
 ARG SECRET_KEY
 ARG EXCHANGE_RATE_API_KEY
@@ -37,4 +40,4 @@ ENV DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
 
 EXPOSE ${PORT}
 
-CMD sh -c "PYTHONPATH=/code daphne -b 0.0.0.0 -p ${PORT} currency_converter.asgi:application"
+CMD ["/code/entrypoint.sh"]
