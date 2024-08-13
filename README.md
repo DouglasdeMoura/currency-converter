@@ -28,6 +28,8 @@ Also, install `poetry-plugin-dotenv` to load environment variables from a `.env`
 poetry self add poetry-plugin-dotenv
 ```
 
+Please, refer to `.env.example` in order to know which environment variables should be defined for the project.
+
 ### Pre-commit hooks
 
 The project is offering [pre-commit](https://pre-commit.com/) hooks, please install them via
