@@ -9,7 +9,6 @@ services:
                 EXCHANGE_BASE_URL: ${EXCHANGE_BASE_URL}
         image: your-image-name:tag
         volumes:
-            - .:/code
             - data:/data
         ports:
             - "3000:8000"
