@@ -26,8 +26,8 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == "True"
 
-ALLOWED_HOSTS = ["localhost", "testserver", "0.0.0.0", "jaya-challenge-frosty-violet-7263.fly.dev"]
-
+APP_NAME = os.environ.get("FLY_APP_NAME")
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"]
 
 # Application definition
 
