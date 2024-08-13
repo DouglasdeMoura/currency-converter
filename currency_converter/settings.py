@@ -27,7 +27,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DEBUG = os.environ["DEBUG"] == "True"
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
-ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"]
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"] if APP_NAME else []
 
 # Application definition
 
