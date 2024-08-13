@@ -55,25 +55,6 @@ class TransactionViewSetTestCase(APITestCase):
         self.assertEqual(new_transaction.amount, 5000)
         self.assertEqual(new_transaction.user, self.user)
 
-    def test_update_transaction(self):
-        url = reverse("transaction-detail", kwargs={"pk": self.transaction.pk})
-        data = {
-            "currency_from": "EUR",
-            "currency_to": "JPY",
-            "amount": "200.00",  # 200.00 EUR
-        }
-        response = self.client.put(url, data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.transaction.refresh_from_db()
-        self.assertEqual(self.transaction.currency_to, "JPY")
-        self.assertEqual(self.transaction.amount, 20000)
-
-    def test_delete_transaction(self):
-        url = reverse("transaction-detail", kwargs={"pk": self.transaction.pk})
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Transaction.objects.filter(user=self.user).count(), 0)
-
     def test_list_transactions_only_for_authenticated_user(self):
         # Create a transaction for another user
         Transaction.objects.create(

@@ -1,10 +1,10 @@
-from rest_framework import permissions, viewsets
+from rest_framework import mixins, permissions, viewsets
 
 from currency_converter.models import Transaction
 from currency_converter.serializers import TransactionSerializer
 
 
-class TransactionViewSet(viewsets.ModelViewSet):
+class TransactionViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows transactions to be viewed or edited.
     """
