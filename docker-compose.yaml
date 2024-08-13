@@ -20,6 +20,10 @@ services:
             - EXCHANGE_RATE_API_KEY=${EXCHANGE_RATE_API_KEY}
             - EXCHANGE_BASE_URL=${EXCHANGE_BASE_URL}
             - SECRET_KEY=${SECRET_KEY}
+            - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+            - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
+            - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
+            - LOG_LEVEL=${LOG_LEVEL}
         entrypoint: ["/code/entrypoint.sh"]
 
 volumes:
