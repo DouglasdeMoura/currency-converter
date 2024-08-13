@@ -33,6 +33,14 @@ pre-commit install
 Each commit in the main branch will trigger a pipeline which will run unit tests and different linting tools.
 When successful it will also containerize the application, finally its scans the docker image for vulnerabilities with [Trivy](https://aquasecurity.github.io/trivy/v0.49/).
 
+### Development
+
+Generating OpenAPI schema:
+
+```sh
+poetry run task manage spectacular --color --file schema.yml
+```
+
 ### Building Docker Image
 
 The application can be containerized by using:
