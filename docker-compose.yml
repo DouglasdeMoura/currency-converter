@@ -4,7 +4,6 @@ services:
         command: python manage.py runserver
         volumes:
             - .:/code
-            - db.sqlite3:/db.sqlite3
         ports:
             - "8002:8000"
         environment:
