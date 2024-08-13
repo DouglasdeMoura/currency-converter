@@ -1,11 +1,13 @@
 services:
     api:
-        build: .
+        build:
+            context: .
+            dockerfile: Dockerfile
         command: python manage.py runserver
         volumes:
             - .:/code
         ports:
-            - "8002:8000"
+            - "8000"
         environment:
             - SECRET_KEY=${SECRET_KEY}
             - DEBUG=${DEBUG}
