@@ -1,0 +1,26 @@
+services:
+    web:
+        build:
+            context: .
+            args:
+                PYTHON_VERSION: 3.12-slim-bullseye
+                SECRET_KEY: ${SECRET_KEY}
+                EXCHANGE_RATE_API_KEY: ${EXCHANGE_RATE_API_KEY}
+                EXCHANGE_BASE_URL: ${EXCHANGE_BASE_URL}
+        image: your-image-name:tag
+        volumes:
+            - .:/code
+            - data:/data
+        ports:
+            - "8000:8000"
+        environment:
+            - PYTHONDONTWRITEBYTECODE=1
+            - PYTHONUNBUFFERED=1
+            - DEBUG=False
+            - EXCHANGE_RATE_API_KEY=${EXCHANGE_RATE_API_KEY}
+            - EXCHANGE_BASE_URL=${EXCHANGE_BASE_URL}
+            - SECRET_KEY=${SECRET_KEY}
+        entrypoint: ["/code/entrypoint.sh"]
+
+volumes:
+    data:
