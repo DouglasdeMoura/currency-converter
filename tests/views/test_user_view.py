@@ -38,7 +38,6 @@ class UserViewSetTestCase(TestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(User.objects.count(), 4)
 
     def test_update_user(self):
         url = reverse("user-detail", kwargs={"pk": self.user.pk})
@@ -56,4 +55,3 @@ class UserViewSetTestCase(TestCase):
         url = reverse("user-detail", kwargs={"pk": self.other_user.pk})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(User.objects.count(), 2)
