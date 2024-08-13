@@ -23,6 +23,10 @@ env:
 
 jobs:
     testing:
+        env:
+            DJANGO_SUPERUSER_PASSWORD: testeci1!
+            DJANGO_SUPERUSER_USERNAME: ciuser
+            DJANGO_SUPERUSER_EMAIL: ciuser@example.com
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -48,6 +52,7 @@ jobs:
               shell: bash
               run: |
                   export PATH="${{env.poetry_home}}/bin:$PATH"
+                  poetry run manage createsuperuser --noinput
                   poetry run pytest tests/ --cov . --cov-report html
 
     linting:
