@@ -52,7 +52,7 @@ jobs:
               shell: bash
               run: |
                   export PATH="${{env.poetry_home}}/bin:$PATH"
-                  poetry run manage createsuperuser --noinput
+                  poetry run task manage createsuperuser --noinput
                   poetry run pytest tests/ --cov . --cov-report html
 
     linting:
