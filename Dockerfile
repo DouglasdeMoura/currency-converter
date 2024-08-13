@@ -1,31 +1,21 @@
-ARG PYTHON_VERSION=3.12
-FROM python:${PYTHON_VERSION}-slim-bullseye AS base
+ARG PYTHON_VERSION=3.12-slim-bullseye
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV USERNAME=app
-ENV USER_UID=1000
-ENV USER_GID=$USER_UID
+FROM python:${PYTHON_VERSION}
 
-# Create the user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}
-USER ${USERNAME}
-ENV PATH="/home/${USERNAME}/.local/bin:${PATH}"
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-RUN mkdir -p /home/${USERNAME}/code
-COPY pyproject.toml /home/${USERNAME}/code
-COPY poetry.lock /home/${USERNAME}/code
-COPY manage.py /home/${USERNAME}/code
-COPY currency_converter /home/${USERNAME}/code/currency_converter
-COPY entrypoint.sh /home/${USERNAME}/code/
+RUN mkdir -p /code
 
-RUN cd /home/${USERNAME}/code && \
-    pip install --no-cache-dir poetry==1.8.3 && \
-    poetry config virtualenvs.create true && \
-    poetry install --only main --no-root --no-interaction
+WORKDIR /code
 
-# RUN chmod +x /home/${USERNAME}/code/entrypoint.sh
+# TODO: Run app as non-root user
+COPY pyproject.toml poetry.lock /code/
+COPY . /code
+RUN pip install --no-cache-dir poetry==1.8.3 && \
+    poetry config virtualenvs.create false && \
+    poetry install --only main --no-root --no-interaction && \
+    chmod +x entrypoint.sh
 
 # TODO: secrets should be passed on secret mounts. See https://docs.docker.com/build/building/secrets/
 ARG SECRET_KEY
@@ -47,4 +37,4 @@ ENV DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
 
 EXPOSE ${PORT}
 
-CMD ["/home/app/code/entrypoint.sh"]
+CMD ["/code/entrypoint.sh"]
