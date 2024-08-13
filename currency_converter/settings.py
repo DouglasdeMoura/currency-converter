@@ -27,7 +27,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DEBUG = os.environ["DEBUG"] == "True"
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
-ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"] if APP_NAME else []
+ALLOWED_HOSTS = [f"{APP_NAME}.fly.dev"] if APP_NAME else ["localhost", "127.0.0.1", "testserver"]
 
 # Application definition
 
@@ -81,7 +81,7 @@ WSGI_APPLICATION = "currency_converter.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "data/db.sqlite3",
     }
 }
 

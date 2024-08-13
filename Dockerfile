@@ -15,7 +15,7 @@ COPY pyproject.toml poetry.lock /code/
 RUN poetry config virtualenvs.create false
 RUN poetry install --only main --no-root --no-interaction
 COPY . /code
-RUN chmod +x entrypoint.sh
+RUN chmod +x /code/entrypoint.sh
 
 # TODO: secrets should be passed on secret mounts. See https://docs.docker.com/build/building/secrets/
 ARG SECRET_KEY
@@ -27,6 +27,7 @@ ENV EXCHANGE_RATE_API_KEY=${EXCHANGE_RATE_API_KEY}
 ENV EXCHANGE_BASE_URL=${EXCHANGE_BASE_URL}
 ENV SECRET_KEY=${SECRET_KEY}
 
-EXPOSE 8000
+VOLUME [ "/data" ]
 
-CMD ["entrypoint.sh"]
+EXPOSE 8000
+ENTRYPOINT ["/code/entrypoint.sh"]
