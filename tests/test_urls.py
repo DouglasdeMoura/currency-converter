@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
 
-from currency_converter.views import GroupViewSet, UserViewSet
+from currency_converter.views import GroupViewSet, TransactionViewSet, UserViewSet
 
 
 class TestUrls(SimpleTestCase):
@@ -28,3 +28,11 @@ class TestUrls(SimpleTestCase):
     def test_api_auth_logout_url_resolves(self):
         url = reverse("rest_framework:logout")
         self.assertEqual(resolve(url).url_name, "logout")
+
+    def test_transactions_list_url_resolves(self):
+        url = reverse("transaction-list")
+        self.assertEqual(resolve(url).func.__name__, TransactionViewSet.as_view({"get": "list"}).__name__)
+
+    def test_transactions_detail_url_resolves(self):
+        url = reverse("transaction-detail", kwargs={"pk": 1})
+        self.assertEqual(resolve(url).func.__name__, TransactionViewSet.as_view({"get": "retrieve"}).__name__)
