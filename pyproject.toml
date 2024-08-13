@@ -36,9 +36,7 @@ taskipy = "^1.13.0"
 [tool.taskipy.tasks]
 lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
-start = 'python manage.py runserver'
-migrate = 'python manage.py migrate'
-createsuperuser = 'python manage.py createsuperuser'
+manage = 'python manage.py'
 pre_test = 'task lint'
 test = 'pytest -s -x -vv'
 # --cov=currency_converter
