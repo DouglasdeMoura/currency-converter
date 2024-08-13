@@ -1,7 +1,7 @@
 services:
     api:
         build: .
-        command: python manage.py runserver 0.0.0.0:8000
+        command: python manage.py runserver
         volumes:
             - ".:/code"
         ports:
