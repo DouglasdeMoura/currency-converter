@@ -35,10 +35,26 @@ When successful it will also containerize the application, finally its scans the
 
 ### Development
 
-Generating OpenAPI schema:
+To run the application in development mode, use:
 
 ```sh
-poetry run task manage spectacular --color --file schema.yml
+poetry run task manage runserver
+```
+
+### Migrate
+
+To run the migrations, use:
+
+```sh
+poetry run task manage migrate
+```
+
+### Testing
+
+To run the tests, use:
+
+```sh
+poetry run task test
 ```
 
 ### Building Docker Image
