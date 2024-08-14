@@ -2,6 +2,7 @@ import os
 from typing import Optional
 
 import requests
+from django.core.exceptions import BadRequest
 from pydantic import BaseModel
 from requests import Response
 
@@ -202,6 +203,10 @@ def parse_latest_response(response: Response) -> ExchangeRateResponse:
     return ExchangeRateResponse(**response.json())
 
 
+def validate_currency_key(currency: str) -> bool:
+    return currency in Rates.model_fields
+
+
 def get_latest(base_currency: str = "EUR", symbols: Optional[str] = "BRL,USD,EUR,JPY") -> Optional[Response]:
     """
     Fetch the latest exchange rates for the specified base currency and symbols.
@@ -210,6 +215,16 @@ def get_latest(base_currency: str = "EUR", symbols: Optional[str] = "BRL,USD,EUR
     :param symbols: A comma-separated list of currency symbols to retrieve rates for.
     :return: A Response object if the request is successful, otherwise None.
     """
+    # validate base_currency against the list of supported currencies
+    if not validate_currency_key(base_currency):
+        raise BadRequest(f"Invalid base currency: {base_currency}")
+
+    # validate symbols against the list of supported currencies
+    if symbols:
+        for symbol in symbols.split(","):
+            if not validate_currency_key(symbol):
+                raise BadRequest(f"Invalid symbol currency: {symbol}")
+
     response = requests.get(
         f"{EXCHANGE_BASE_URL}/latest", params={"base": base_currency, "symbols": symbols}, headers=HEADERS
     )

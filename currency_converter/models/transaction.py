@@ -5,8 +5,6 @@ from django.db import models
 
 from currency_converter.services.exchanges_rates_data_api import get_latest, parse_latest_response
 
-ACTIVATE_MOCK = True
-
 
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,9 +35,6 @@ class Transaction(models.Model):
         """
         if currency_from == currency_to:
             return "1"
-
-        if ACTIVATE_MOCK:
-            return "1.1"
 
         response = parse_latest_response(get_latest(currency_from, currency_to))
         # The conversion rate is stored as a string to avoid floating point arithmetic issues

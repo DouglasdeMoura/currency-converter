@@ -1,4 +1,5 @@
 import pytest
+from django.core.exceptions import BadRequest
 from requests import HTTPError
 
 from currency_converter.services.exchanges_rates_data_api import (
@@ -86,3 +87,13 @@ def test_get_latest_with_custom_arguments(requests_mock):
     request = requests_mock.request_history[0]
     assert request.url == f"{url}?base=USD&symbols=EUR%2CGBP"  # The symbols should be URL-encoded
     assert request.headers["apikey"] == "test_api_key"  # Ensure the correct API key was used
+
+
+def test_get_latest_with_invalid_base_currency():
+    with pytest.raises(BadRequest, match="Invalid base currency: INVALID"):
+        get_latest(base_currency="INVALID", symbols="USD")
+
+
+def test_get_latest_with_invalid_symbols():
+    with pytest.raises(BadRequest, match="Invalid symbol currency: INVALID"):
+        get_latest(base_currency="USD", symbols="INVALID")
