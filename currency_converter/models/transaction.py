@@ -1,7 +1,9 @@
 from decimal import Decimal
 
+import structlog
 from django.contrib.auth.models import User
 from django.db import models
+from rest_framework.exceptions import APIException
 
 from currency_converter.services.exchanges_rates_data_api import get_latest, parse_latest_response
 
@@ -19,9 +21,14 @@ class Transaction(models.Model):
         ordering = ["timestamp"]
 
     def save(self, *args, **kwargs):
-        self.conversion_rate = self.get_conversion_rate(self.currency_from, self.currency_to)
-        self.converted_amount = self.convert_amount(self.amount, self.conversion_rate)
-        super().save(*args, **kwargs)
+        try:
+            self.conversion_rate = self.get_conversion_rate(self.currency_from, self.currency_to)
+            self.converted_amount = self.convert_amount(self.amount, self.conversion_rate)
+            super().save(*args, **kwargs)
+        except Exception as e:
+            logger = structlog.get_logger(__name__)
+            logger.error("An error occurred while saving the transaction:", error=e)
+            raise APIException("An error occurred while saving the transaction")
 
     def get_conversion_rate(self, currency_from, currency_to) -> str:
         """Gets the conversion rate between two currencies
